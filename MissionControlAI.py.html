@@ -1,0 +1,274 @@
+<html>
+<head>
+<title>MissionControlAI.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #6aab73;}
+.s5 { color: #7a7e85;}
+</style>
+</head>
+<body bgcolor="#191a1c">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MissionControlAI.py</font>
+</center></td></tr></table>
+<pre><span class="s0">def </span><span class="s1">analisar_tendencia</span><span class="s2">(</span><span class="s1">riscos_ciclos</span><span class="s2">):</span>
+
+    <span class="s1">primeiro_risco </span><span class="s2">= </span><span class="s1">riscos_ciclos</span><span class="s2">[</span><span class="s3">0</span><span class="s2">]</span>
+    <span class="s1">ultimo_risco </span><span class="s2">= </span><span class="s1">riscos_ciclos</span><span class="s2">[-</span><span class="s3">1</span><span class="s2">]</span>
+
+    <span class="s0">if </span><span class="s1">ultimo_risco </span><span class="s2">&gt; </span><span class="s1">primeiro_risco</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;A missão apresentou tendência de piora.&quot;</span>
+
+    <span class="s0">elif </span><span class="s1">ultimo_risco </span><span class="s2">&lt; </span><span class="s1">primeiro_risco</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;A missão apresentou tendência de melhora.&quot;</span>
+
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;A missão permaneceu estável em relação ao início.&quot;</span>
+
+<span class="s0">def </span><span class="s1">avaliar_risco</span><span class="s2">(</span><span class="s1">ciclo</span><span class="s2">):</span>
+    <span class="s0">if </span><span class="s1">ciclo </span><span class="s2">&lt;= </span><span class="s3">2</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;MISSAO ESTAVEL&quot;</span>
+    <span class="s0">elif </span><span class="s1">ciclo </span><span class="s2">&lt;= </span><span class="s3">5</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;MISSAO EM ATENCAO&quot;</span>
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;MISSAO CRITICA&quot;</span>
+
+<span class="s0">def </span><span class="s1">analisar_temperatura</span><span class="s2">(</span><span class="s1">temp</span><span class="s2">):</span>
+
+    <span class="s0">if </span><span class="s1">temp </span><span class="s2">&lt; </span><span class="s3">18</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;ATENCAO | Temperatura abaixo do recomendado | verificar controle térmico da missão.&quot;</span><span class="s2">, </span><span class="s3">1</span>
+
+    <span class="s0">elif </span><span class="s1">temp </span><span class="s2">&lt;= </span><span class="s3">30</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;NORMAL | Temperatura estável&quot;</span><span class="s2">, </span><span class="s3">0</span>
+
+    <span class="s0">elif </span><span class="s1">temp </span><span class="s2">&lt;= </span><span class="s3">35</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;ATENCAO | Temperatura elevada&quot;</span><span class="s2">, </span><span class="s3">1</span>
+
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;CRITICO | Risco de superaquecimento | verificar controle térmico da missão.&quot;</span><span class="s2">, </span><span class="s3">2</span>
+
+<span class="s0">def </span><span class="s1">analisar_comunicacao</span><span class="s2">(</span><span class="s1">com</span><span class="s2">):</span>
+
+    <span class="s0">if </span><span class="s1">com </span><span class="s2">&lt; </span><span class="s3">30</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;CRITICO | Comunicação com a base em nível crítico | tentar restabelecer contato com a base.&quot; </span><span class="s2">, </span><span class="s3">2</span>
+
+    <span class="s0">elif </span><span class="s1">com </span><span class="s2">&lt; </span><span class="s3">60</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;ATENCAO | Comunicação instável&quot;</span><span class="s2">, </span><span class="s3">1</span>
+
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;NORMAL | Comunicação estável&quot;</span><span class="s2">, </span><span class="s3">0</span>
+
+<span class="s0">def </span><span class="s1">analisar_bateria</span><span class="s2">(</span><span class="s1">bat</span><span class="s2">):</span>
+
+    <span class="s0">if </span><span class="s1">bat </span><span class="s2">&lt; </span><span class="s3">20</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;CRITICO | Bateria em nível crítico | ativar modo de economia de energia.&quot;</span><span class="s2">, </span><span class="s3">2</span>
+
+    <span class="s0">elif </span><span class="s1">bat </span><span class="s2">&lt; </span><span class="s3">50</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;ATENCAO | Bateria abaixo do recomendado&quot;</span><span class="s2">, </span><span class="s3">1</span>
+
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;NORMAL | Energia estável&quot;</span><span class="s2">, </span><span class="s3">0</span>
+
+<span class="s0">def </span><span class="s1">analisar_oxigenio</span><span class="s2">(</span><span class="s1">oxi</span><span class="s2">):</span>
+
+    <span class="s0">if </span><span class="s1">oxi </span><span class="s2">&lt; </span><span class="s3">80</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;CRITICO | Oxigênio em nível crítico | acionar protocolo de suporte à vida.&quot;</span><span class="s2">, </span><span class="s3">2</span>
+
+    <span class="s0">elif </span><span class="s1">oxi </span><span class="s2">&lt; </span><span class="s3">90</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;ATENCAO | Oxigênio abaixo do ideal&quot;</span><span class="s2">, </span><span class="s3">1</span>
+
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;NORMAL | Oxigênio adequado&quot;</span><span class="s2">, </span><span class="s3">0</span>
+
+<span class="s0">def </span><span class="s1">analisar_estabilidade</span><span class="s2">(</span><span class="s1">est</span><span class="s2">):</span>
+
+    <span class="s0">if </span><span class="s1">est </span><span class="s2">&lt; </span><span class="s3">40</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;CRITICO | Estabilidade operacional crítica | reduzir operações não essenciais.&quot;</span><span class="s2">, </span><span class="s3">2</span>
+
+    <span class="s0">elif </span><span class="s1">est </span><span class="s2">&lt; </span><span class="s3">70</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;ATENCAO | Estabilidade operacional reduzida&quot;</span><span class="s2">, </span><span class="s3">1</span>
+
+    <span class="s0">else</span><span class="s2">:</span>
+        <span class="s0">return </span><span class="s4">&quot;NORMAL | Estabilidade operacional adequada&quot;</span><span class="s2">, </span><span class="s3">0</span>
+
+
+<span class="s5">#---AREA MONITORADAS---</span>
+<span class="s1">areas_monitoradas </span><span class="s2">= [</span>
+ <span class="s4">&quot;Temperatura interna&quot;</span><span class="s2">,</span>
+ <span class="s4">&quot;Comunicação com a base&quot;</span><span class="s2">,</span>
+ <span class="s4">&quot;Sistema de energia&quot;</span><span class="s2">,</span>
+ <span class="s4">&quot;Suporte de oxigênio&quot;</span><span class="s2">,</span>
+ <span class="s4">&quot;Estabilidade operacional&quot;</span>
+<span class="s2">]</span>
+
+
+<span class="s5">#---TABELA---</span>
+<span class="s1">dados_missao </span><span class="s2">= [</span>
+ <span class="s2">[</span><span class="s3">24</span><span class="s2">, </span><span class="s3">92</span><span class="s2">, </span><span class="s3">88</span><span class="s2">, </span><span class="s3">96</span><span class="s2">, </span><span class="s3">90</span><span class="s2">],</span>
+ <span class="s2">[</span><span class="s3">27</span><span class="s2">, </span><span class="s3">80</span><span class="s2">, </span><span class="s3">72</span><span class="s2">, </span><span class="s3">94</span><span class="s2">, </span><span class="s3">85</span><span class="s2">],</span>
+ <span class="s2">[</span><span class="s3">31</span><span class="s2">, </span><span class="s3">65</span><span class="s2">, </span><span class="s3">58</span><span class="s2">, </span><span class="s3">91</span><span class="s2">, </span><span class="s3">70</span><span class="s2">],</span>
+ <span class="s2">[</span><span class="s3">36</span><span class="s2">, </span><span class="s3">42</span><span class="s2">, </span><span class="s3">38</span><span class="s2">, </span><span class="s3">87</span><span class="s2">, </span><span class="s3">55</span><span class="s2">],</span>
+ <span class="s2">[</span><span class="s3">39</span><span class="s2">, </span><span class="s3">28</span><span class="s2">, </span><span class="s3">19</span><span class="s2">, </span><span class="s3">78</span><span class="s2">, </span><span class="s3">35</span><span class="s2">],</span>
+ <span class="s2">[</span><span class="s3">34</span><span class="s2">, </span><span class="s3">55</span><span class="s2">, </span><span class="s3">32</span><span class="s2">, </span><span class="s3">82</span><span class="s2">, </span><span class="s3">50</span><span class="s2">]</span>
+<span class="s2">]</span>
+
+
+<span class="s1">print</span><span class="s2">(</span><span class="s4">&quot;&quot;&quot; 
+============================================================ 
+MISSION CONTROL AI 
+============================================================ 
+Missão: Orion Test Alpha 
+Equipe: Equipe Apollo 
+Quantidade de ciclos analisados: 6 
+============================================================ 
+&quot;&quot;&quot;</span><span class="s2">)</span>
+
+
+<span class="s5">#---LISTA PARA IDENTIFICAR QUAL CICLO FOI O MAIS PERIGOSO---</span>
+<span class="s1">lista_riscos</span><span class="s2">=[]</span>
+
+
+<span class="s5">#---LISTA PARA SOMA DE PERIGO DOS CICLOS---</span>
+<span class="s1">lista_pontos </span><span class="s2">= []</span>
+
+
+<span class="s1">ciclos_criticos</span><span class="s2">=</span><span class="s3">0</span>
+
+<span class="s1">ciclo_atual</span><span class="s2">=</span><span class="s3">0</span>
+<span class="s0">for </span><span class="s1">ciclo </span><span class="s0">in </span><span class="s1">dados_missao</span><span class="s2">:</span>
+    <span class="s1">ciclo_atual </span><span class="s2">+= </span><span class="s3">1</span>
+    <span class="s1">temperatura </span><span class="s2">= </span><span class="s1">ciclo</span><span class="s2">[</span><span class="s3">0</span><span class="s2">]</span>
+    <span class="s1">comunicacao </span><span class="s2">= </span><span class="s1">ciclo</span><span class="s2">[</span><span class="s3">1</span><span class="s2">]</span>
+    <span class="s1">bateria </span><span class="s2">= </span><span class="s1">ciclo</span><span class="s2">[</span><span class="s3">2</span><span class="s2">]</span>
+    <span class="s1">oxigenio </span><span class="s2">= </span><span class="s1">ciclo</span><span class="s2">[</span><span class="s3">3</span><span class="s2">]</span>
+    <span class="s1">estabilidade </span><span class="s2">= </span><span class="s1">ciclo</span><span class="s2">[</span><span class="s3">4</span><span class="s2">]</span>
+
+    <span class="s1">temp_status</span><span class="s2">, </span><span class="s1">temp_pontos </span><span class="s2">= </span><span class="s1">analisar_temperatura</span><span class="s2">(</span><span class="s1">temperatura</span><span class="s2">)</span>
+
+    <span class="s1">com_status</span><span class="s2">, </span><span class="s1">com_pontos </span><span class="s2">= </span><span class="s1">analisar_comunicacao</span><span class="s2">(</span><span class="s1">comunicacao</span><span class="s2">)</span>
+
+    <span class="s1">bat_status</span><span class="s2">, </span><span class="s1">bat_pontos </span><span class="s2">= </span><span class="s1">analisar_bateria</span><span class="s2">(</span><span class="s1">bateria</span><span class="s2">)</span>
+
+    <span class="s1">oxi_status</span><span class="s2">, </span><span class="s1">oxi_pontos </span><span class="s2">= </span><span class="s1">analisar_oxigenio</span><span class="s2">(</span><span class="s1">oxigenio</span><span class="s2">)</span>
+
+    <span class="s1">est_status</span><span class="s2">, </span><span class="s1">est_pontos </span><span class="s2">= </span><span class="s1">analisar_estabilidade</span><span class="s2">(</span><span class="s1">estabilidade</span><span class="s2">)</span>
+
+    <span class="s1">lista_pontosfor </span><span class="s2">= [</span><span class="s1">temp_pontos</span><span class="s2">, </span><span class="s1">com_pontos</span><span class="s2">, </span><span class="s1">bat_pontos</span><span class="s2">, </span><span class="s1">oxi_pontos</span><span class="s2">, </span><span class="s1">est_pontos</span><span class="s2">]</span>
+
+
+
+    <span class="s1">risco_total </span><span class="s2">= (</span><span class="s1">temp_pontos </span><span class="s2">+ </span><span class="s1">com_pontos </span><span class="s2">+ </span><span class="s1">bat_pontos </span><span class="s2">+ </span><span class="s1">oxi_pontos </span><span class="s2">+ </span><span class="s1">est_pontos</span><span class="s2">)</span>
+
+    <span class="s1">lista_riscos</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">risco_total</span><span class="s2">)</span>
+
+    <span class="s1">lista_pontos</span><span class="s2">.</span><span class="s1">append</span><span class="s2">(</span><span class="s1">lista_pontosfor</span><span class="s2">)</span>
+
+
+    <span class="s1">print</span><span class="s2">(</span><span class="s4">f&quot;&quot;&quot;CICLO ATUAL: </span><span class="s0">{</span><span class="s1">ciclo_atual</span><span class="s0">} </span>
+    <span class="s4">Temperatura: </span><span class="s0">{</span><span class="s1">temperatura</span><span class="s0">}</span><span class="s4">°C </span><span class="s0">{</span><span class="s1">temp_status</span><span class="s0">} </span>
+    <span class="s4">Comunicacao: </span><span class="s0">{</span><span class="s1">comunicacao</span><span class="s0">}</span><span class="s4">% </span><span class="s0">{</span><span class="s1">com_status</span><span class="s0">} </span>
+    <span class="s4">Bateria: </span><span class="s0">{</span><span class="s1">bateria</span><span class="s0">}</span><span class="s4">% </span><span class="s0">{</span><span class="s1">bat_status</span><span class="s0">} </span>
+    <span class="s4">Oxigenio: </span><span class="s0">{</span><span class="s1">oxigenio</span><span class="s0">}</span><span class="s4">% </span><span class="s0">{</span><span class="s1">oxi_status</span><span class="s0">} </span>
+    <span class="s4">Estabilidade: </span><span class="s0">{</span><span class="s1">estabilidade</span><span class="s0">}</span><span class="s4">% </span><span class="s0">{</span><span class="s1">est_status</span><span class="s0">} </span>
+    
+    <span class="s4">Pontuação de risco do ciclo: </span><span class="s0">{</span><span class="s1">risco_total</span><span class="s0">}</span>
+    <span class="s4">Classificação do ciclo: </span><span class="s0">{</span><span class="s1">avaliar_risco</span><span class="s2">(</span><span class="s1">risco_total</span><span class="s2">)</span><span class="s0">}</span>
+    
+    <span class="s4">&quot;&quot;&quot;</span><span class="s2">)</span>
+
+
+    <span class="s0">if </span><span class="s1">risco_total </span><span class="s2">&gt;</span><span class="s3">5</span><span class="s2">:</span>
+        <span class="s1">ciclos_criticos </span><span class="s2">+= </span><span class="s3">1</span>
+
+<span class="s1">pont_total_temp</span><span class="s2">=</span><span class="s3">0</span>
+<span class="s1">pont_total_com</span><span class="s2">=</span><span class="s3">0</span>
+<span class="s1">pont_total_bat</span><span class="s2">=</span><span class="s3">0</span>
+<span class="s1">pont_total_oxi</span><span class="s2">=</span><span class="s3">0</span>
+<span class="s1">pont_total_est</span><span class="s2">=</span><span class="s3">0</span>
+
+<span class="s0">for </span><span class="s1">riscos </span><span class="s0">in </span><span class="s1">lista_pontos</span><span class="s2">:</span>
+    <span class="s1">pont_total_temp </span><span class="s2">+= </span><span class="s1">riscos</span><span class="s2">[</span><span class="s3">0</span><span class="s2">]</span>
+    <span class="s1">pont_total_com </span><span class="s2">+= </span><span class="s1">riscos</span><span class="s2">[</span><span class="s3">1</span><span class="s2">]</span>
+    <span class="s1">pont_total_bat </span><span class="s2">+= </span><span class="s1">riscos</span><span class="s2">[</span><span class="s3">2</span><span class="s2">]</span>
+    <span class="s1">pont_total_oxi </span><span class="s2">+= </span><span class="s1">riscos</span><span class="s2">[</span><span class="s3">3</span><span class="s2">]</span>
+    <span class="s1">pont_total_est </span><span class="s2">+= </span><span class="s1">riscos</span><span class="s2">[</span><span class="s3">4</span><span class="s2">]</span>
+
+
+<span class="s5">#---TABELA COM A AREA MAIS AFETADA---</span>
+<span class="s1">lista_da_area_mais_afetada </span><span class="s2">= [</span><span class="s1">pont_total_temp</span><span class="s2">, </span><span class="s1">pont_total_com</span><span class="s2">, </span><span class="s1">pont_total_bat</span><span class="s2">, </span><span class="s1">pont_total_oxi</span><span class="s2">, </span><span class="s1">pont_total_est</span><span class="s2">]</span>
+
+<span class="s1">index_area_afetada </span><span class="s2">= </span><span class="s1">lista_da_area_mais_afetada</span><span class="s2">.</span><span class="s1">index</span><span class="s2">(</span><span class="s1">max</span><span class="s2">(</span><span class="s1">lista_da_area_mais_afetada</span><span class="s2">))</span>
+
+
+<span class="s5">#-==-IDENTIFICACAO DE CICLO MAIS PERIGOSO-==-</span>
+<span class="s1">maior_pontuacao </span><span class="s2">= </span><span class="s1">max</span><span class="s2">(</span><span class="s1">lista_riscos</span><span class="s2">)</span>
+
+<span class="s1">indice_ciclo_critico </span><span class="s2">= </span><span class="s1">lista_riscos</span><span class="s2">.</span><span class="s1">index</span><span class="s2">(</span><span class="s1">maior_pontuacao</span><span class="s2">)</span>
+
+<span class="s1">ciclo_mais_critico </span><span class="s2">= </span><span class="s1">indice_ciclo_critico </span><span class="s2">+ </span><span class="s3">1</span>
+
+<span class="s1">risco_medio_missao </span><span class="s2">= </span><span class="s1">sum</span><span class="s2">(</span><span class="s1">lista_riscos</span><span class="s2">) / </span><span class="s1">len</span><span class="s2">(</span><span class="s1">lista_riscos</span><span class="s2">)</span>
+
+<span class="s1">quantidade_critica</span><span class="s2">= </span><span class="s1">lista_riscos</span><span class="s2">[</span><span class="s1">indice_ciclo_critico</span><span class="s2">]/</span><span class="s3">2</span>
+
+
+<span class="s5">#-==-MEDIA DOS VALORES DA MISSAO INTEIRA-==-</span>
+<span class="s1">temp_valores </span><span class="s2">= [</span><span class="s1">linha</span><span class="s2">[</span><span class="s3">0</span><span class="s2">] </span><span class="s0">for </span><span class="s1">linha </span><span class="s0">in </span><span class="s1">dados_missao</span><span class="s2">]</span>
+<span class="s1">media_temp </span><span class="s2">= </span><span class="s1">sum</span><span class="s2">(</span><span class="s1">temp_valores</span><span class="s2">) / </span><span class="s1">len</span><span class="s2">(</span><span class="s1">temp_valores</span><span class="s2">)</span>
+
+<span class="s1">com_valores </span><span class="s2">= [</span><span class="s1">linha</span><span class="s2">[</span><span class="s3">1</span><span class="s2">] </span><span class="s0">for </span><span class="s1">linha </span><span class="s0">in </span><span class="s1">dados_missao</span><span class="s2">]</span>
+<span class="s1">media_com </span><span class="s2">= </span><span class="s1">sum</span><span class="s2">(</span><span class="s1">com_valores</span><span class="s2">) / </span><span class="s1">len</span><span class="s2">(</span><span class="s1">com_valores</span><span class="s2">)</span>
+
+<span class="s1">bat_valores </span><span class="s2">= [</span><span class="s1">linha</span><span class="s2">[</span><span class="s3">2</span><span class="s2">] </span><span class="s0">for </span><span class="s1">linha </span><span class="s0">in </span><span class="s1">dados_missao</span><span class="s2">]</span>
+<span class="s1">media_bat </span><span class="s2">= </span><span class="s1">sum</span><span class="s2">(</span><span class="s1">bat_valores</span><span class="s2">) / </span><span class="s1">len</span><span class="s2">(</span><span class="s1">bat_valores</span><span class="s2">)</span>
+
+<span class="s1">oxi_valores </span><span class="s2">= [</span><span class="s1">linha</span><span class="s2">[</span><span class="s3">3</span><span class="s2">] </span><span class="s0">for </span><span class="s1">linha </span><span class="s0">in </span><span class="s1">dados_missao</span><span class="s2">]</span>
+<span class="s1">media_oxi </span><span class="s2">= </span><span class="s1">sum</span><span class="s2">(</span><span class="s1">oxi_valores</span><span class="s2">) / </span><span class="s1">len</span><span class="s2">(</span><span class="s1">oxi_valores</span><span class="s2">)</span>
+
+<span class="s1">est_valores </span><span class="s2">= [</span><span class="s1">linha</span><span class="s2">[</span><span class="s3">4</span><span class="s2">] </span><span class="s0">for </span><span class="s1">linha </span><span class="s0">in </span><span class="s1">dados_missao</span><span class="s2">]</span>
+<span class="s1">media_est </span><span class="s2">= </span><span class="s1">sum</span><span class="s2">(</span><span class="s1">est_valores</span><span class="s2">) / </span><span class="s1">len</span><span class="s2">(</span><span class="s1">est_valores</span><span class="s2">)</span>
+
+
+<span class="s1">print</span><span class="s2">(</span><span class="s4">f&quot;&quot;&quot;</span>
+<span class="s4">============================================================</span>
+<span class="s4">RELATÓRIO FINAL DA MISSÃO</span>
+<span class="s4">============================================================</span>
+<span class="s4">Missão: Orion Test Alpha</span>
+<span class="s4">Equipe: Equipe Apollo</span>
+
+<span class="s4">Quantidade de ciclos analisados:</span><span class="s0">{</span><span class="s1">ciclo_atual</span><span class="s0">}</span>
+
+<span class="s4">Média de temperatura: </span><span class="s0">{</span><span class="s1">media_temp</span><span class="s0">:</span><span class="s4">.2f</span><span class="s0">}</span><span class="s4">°C</span>
+<span class="s4">Média de comunicação: </span><span class="s0">{</span><span class="s1">media_com</span><span class="s0">:</span><span class="s4">.2f</span><span class="s0">}</span><span class="s4">%</span>
+<span class="s4">Média de bateria: </span><span class="s0">{</span><span class="s1">media_bat</span><span class="s0">:</span><span class="s4">.2f</span><span class="s0">}</span><span class="s4">%</span>
+<span class="s4">Média de oxigênio: </span><span class="s0">{</span><span class="s1">media_oxi</span><span class="s0">:</span><span class="s4">.2f</span><span class="s0">}</span><span class="s4">%</span>
+<span class="s4">Média de estabilidade: </span><span class="s0">{</span><span class="s1">media_est</span><span class="s0">:</span><span class="s4">.2f</span><span class="s0">}</span><span class="s4">%</span>
+
+<span class="s4">Ciclo mais crítico: </span><span class="s0">{</span><span class="s1">ciclo_mais_critico</span><span class="s0">}</span>
+<span class="s4">Maior pontuação de risco: </span><span class="s0">{</span><span class="s1">maior_pontuacao</span><span class="s0">}</span>
+<span class="s4">Risco médio da missão: </span><span class="s0">{</span><span class="s1">risco_medio_missao</span><span class="s0">:</span><span class="s4">.2f</span><span class="s0">}</span>
+<span class="s4">Quantidade de críticos: </span><span class="s0">{</span><span class="s1">quantidade_critica</span><span class="s0">:</span><span class="s4">.0f</span><span class="s0">}</span>
+
+<span class="s4">Tendência da missão:</span>
+<span class="s0">{</span><span class="s1">analisar_tendencia</span><span class="s2">(</span><span class="s1">lista_riscos</span><span class="s2">)</span><span class="s0">}</span>
+<span class="s4">Quantidade de ciclos críticos: </span><span class="s0">{</span><span class="s1">ciclos_criticos</span><span class="s0">}</span>
+
+<span class="s4">Pontuação acumulada por área:</span>
+<span class="s4">Temperatura interna: </span><span class="s0">{</span><span class="s1">lista_da_area_mais_afetada</span><span class="s2">[</span><span class="s3">0</span><span class="s2">]</span><span class="s0">} </span><span class="s4">pontos</span>
+<span class="s4">Comunicação com a base: </span><span class="s0">{</span><span class="s1">lista_da_area_mais_afetada</span><span class="s2">[</span><span class="s3">1</span><span class="s2">]</span><span class="s0">} </span><span class="s4">pontos</span>
+<span class="s4">Sistema de energia: </span><span class="s0">{</span><span class="s1">lista_da_area_mais_afetada</span><span class="s2">[</span><span class="s3">2</span><span class="s2">]</span><span class="s0">} </span><span class="s4">pontos</span>
+<span class="s4">Suporte de oxigênio: </span><span class="s0">{</span><span class="s1">lista_da_area_mais_afetada</span><span class="s2">[</span><span class="s3">3</span><span class="s2">]</span><span class="s0">} </span><span class="s4">pontos</span>
+<span class="s4">Estabilidade operacional: </span><span class="s0">{</span><span class="s1">lista_da_area_mais_afetada</span><span class="s2">[</span><span class="s3">4</span><span class="s2">]</span><span class="s0">} </span><span class="s4">pontos</span>
+
+<span class="s4">Área mais afetada:</span>
+<span class="s0">{</span><span class="s1">areas_monitoradas</span><span class="s2">[</span><span class="s1">index_area_afetada</span><span class="s2">]</span><span class="s0">}</span>
+
+<span class="s4">&quot;&quot;&quot;</span><span class="s2">)</span></pre>
+</body>
+</html>
