@@ -4,9 +4,12 @@ Nome da missão: Project Rocket Mitigation
 
 Nome da equipe: Equipe Bravo
 
-Integrantes: Guilherme Henrique de Almeida, João Pedro Amorim de Albuquerque, Kayky Araujo Silva 
+Integrantes: 
+Guilherme Henrique de Almeida - RM568708
 
-RM dos integrantes: RM568708, RM573342, RM569535
+João Pedro Amorim de Albuquerque - RM573342
+
+Kayky Araujo Silva - RM 569535
 
 Link do repositório GitHub: https://github.com/kayk-7/GS-PCAP-1CCPX.git
 
